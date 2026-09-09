@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # 타입과 린트는 비밀값 없이 돌아간다. 포크 PR에서도 항상 실행된다.
+  static:
+    name: 타입 검사 · 린트
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+
+  # 빌드와 UI 회귀는 Supabase 값이 있어야 의미가 있다.
+  # 비밀값이 없는 저장소(포크 등)에서는 실패 대신 건너뛴다.
+  ui:
+    name: 빌드 · UI 회귀 검증
+    runs-on: ubuntu-latest
+    needs: static
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 비밀값 확인
+        id: secrets
+        run: |
+          if [ -n "$NEXT_PUBLIC_SUPABASE_URL" ] && [ -n "$NEXT_PUBLIC_SUPABASE_ANON_KEY" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Supabase 비밀값이 없어 빌드와 UI 검증을 건너뜁니다."
+          fi
+
+      - if: steps.secrets.outputs.ready == 'true'
+        run: npm ci
+
+      - if: steps.secrets.outputs.ready == 'true'
+        run: npm run build
+
+      - name: 서버 기동
+        if: steps.secrets.outputs.ready == 'true'
+        run: |
+          npm run start &
+          echo $! > .server.pid
+
+      - name: UI 회귀 검증
+        if: steps.secrets.outputs.ready == 'true'
+        run: npm run verify:ui
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+
+      - name: 스크린샷 업로드
+        if: always() && steps.secrets.outputs.ready == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-snapshots
+          path: .ui-snapshots/
+          retention-days: 7
+          if-no-files-found: ignore
