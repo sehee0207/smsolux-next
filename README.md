@@ -69,6 +69,12 @@ DB 저장·삭제를 사용하려면 서비스 역할 키가 필요합니다. �
 `ADMIN_BYPASS_AUTH=false`를 추가하세요. 서비스 역할 키가 없을 때는 허용된 계정의
 Supabase 세션과 해당 테이블의 RLS 쓰기 정책을 사용합니다.
 
+프로젝트 이미지는 Supabase Storage의 공개 `project-thumbnail` 버킷에 저장됩니다.
+`supabase/migrations/20260802000000_create_project_thumbnail_bucket.sql`을 적용해 버킷을
+생성한 뒤, 관리자 저장 작업에는 `SUPABASE_SERVICE_ROLE_KEY`를 사용하는 것을 권장합니다.
+서비스 역할 키 없이 로그인 세션으로 저장한다면 해당 버킷에도 관리자 계정만 허용하는
+Storage RLS 정책을 별도로 설정해야 합니다.
+
 ### 3. 개발 서버 실행
 
 ```bash

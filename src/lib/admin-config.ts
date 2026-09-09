@@ -5,6 +5,7 @@ export type AdminFieldType =
   | "checkbox"
   | "tags"
   | "detail-list"
+  | "image"
   | "datetime-local";
 
 export interface AdminFieldConfig {
@@ -15,6 +16,9 @@ export interface AdminFieldConfig {
   required?: boolean;
   rows?: number;
   description?: string;
+  accept?: string;
+  maxSizeMb?: number;
+  storageBucket?: string;
 }
 
 export interface AdminSectionConfig {
@@ -215,8 +219,13 @@ export const ADMIN_SECTIONS: Record<string, AdminSectionConfig> = {
       },
       {
         name: "image",
-        label: "이미지 경로",
-        placeholder: "https://... 또는 bucket/path/to/file.png",
+        label: "프로젝트 이미지",
+        type: "image",
+        accept: "image/jpeg,image/png,image/webp,image/gif,image/avif",
+        maxSizeMb: 5,
+        storageBucket: "project-thumbnail",
+        description:
+          "JPG, PNG, WebP, GIF, AVIF 파일을 업로드합니다. 최대 5MB이며, 수정할 때 파일을 선택하지 않으면 기존 이미지가 유지됩니다.",
       },
       {
         name: "link",

@@ -7,6 +7,7 @@ import { ChevronDown, PencilLine, Plus } from "lucide-react";
 import CreateRecordModal from "@/components/admin/CreateRecordModal";
 import AdminDeleteButton from "@/components/admin/AdminDeleteButton";
 import { getKstWallClockTimestamp } from "@/utils/date";
+import { resolveSupabaseImageUrl } from "@/lib/storage";
 
 function formatDateTimeLocal(value: unknown) {
   if (typeof value !== "string" || !value) {
@@ -70,6 +71,39 @@ function FieldInput({
 }) {
   const baseClassName =
     "mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-white/20 focus:border-[#8CE0F4]/60 focus:bg-black/30";
+
+  if (field.type === "image") {
+    const currentValue = typeof value === "string" ? value : "";
+    const previewUrl = resolveSupabaseImageUrl(currentValue, {
+      bucket: field.storageBucket,
+    });
+
+    return (
+      <div className="mt-2 space-y-3">
+        {previewUrl && (
+          <div className="overflow-hidden rounded-xl border border-white/10 bg-black/20">
+            {/* The Supabase host is environment-specific, so this admin preview intentionally uses a native image. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={previewUrl}
+              alt={`${field.label} 현재 이미지`}
+              className="h-40 w-full object-cover"
+            />
+            <p className="truncate border-t border-white/10 px-3 py-2 text-xs text-white/35">
+              현재 이미지: {currentValue}
+            </p>
+          </div>
+        )}
+        <input
+          type="file"
+          name={field.name}
+          accept={field.accept}
+          required={field.required && !currentValue}
+          className={`${baseClassName} file:mr-3 file:rounded-lg file:border-0 file:bg-[#8CE0F4] file:px-3 file:py-2 file:text-xs file:font-bold file:text-[#071013]`}
+        />
+      </div>
+    );
+  }
 
   if (field.type === "textarea" || field.type === "detail-list") {
     return (
@@ -297,7 +331,9 @@ export function RecordForm({
               <div
                 key={field.name}
                 className={
-                  field.type === "textarea" || field.type === "detail-list"
+                  field.type === "textarea" ||
+                  field.type === "detail-list" ||
+                  field.type === "image"
                     ? "md:col-span-2"
                     : ""
                 }
