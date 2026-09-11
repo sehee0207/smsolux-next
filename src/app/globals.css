@@ -67,3 +67,89 @@ body {
 .animate-pulse-slow {
   animation: pulse-slow 8s infinite ease-in-out;
 }
+/*
+ * 첫 화면 등장 애니메이션.
+ *
+ * framer-motion 으로 하면 초기 상태(opacity:0)가 서버 HTML 에 그대로 찍히고,
+ * 하이드레이션이 끝나야 보이기 시작한다. 모바일에서 스크립트를 받는 동안
+ * 첫 화면이 검게 비어 있던 원인이라 CSS 로 옮겼다. backwards 를 줘서
+ * 지연 시간 동안에는 시작 상태를 유지한다.
+ */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-rise {
+  animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out backwards;
+}
+
+/* Hero 뒤에 깔리는 장식용 빛 번짐. 합성 단계에서만 움직이게 둔다. */
+@keyframes drift-one {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: translate3d(20px, -20px, 0) scale(1.25);
+  }
+}
+
+.animate-drift-one {
+  animation: drift-one 12s infinite ease-in-out;
+}
+
+@keyframes drift-two {
+
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: translate3d(-30px, 30px, 0) scale(1.35);
+  }
+}
+
+.animate-drift-two {
+  animation: drift-two 15s 1s infinite ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .animate-rise,
+  .animate-fade-in,
+  .animate-drift-one,
+  .animate-drift-two {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
