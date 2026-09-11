@@ -387,7 +387,7 @@ export default function ActivitiesClient({
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.5, delay: idx * 0.1 }}
-                            className={`relative flex flex-col gap-8 rounded-[28px] px-4 py-5 transition-all md:flex-row md:gap-12 md:px-6 ${canEdit && isEditorOpen ? "cursor-pointer" : ""
+                            className={`relative flex flex-col gap-8 rounded-[28px] px-4 py-5 transition-colors md:flex-row md:gap-12 md:px-6 ${canEdit && isEditorOpen ? "cursor-pointer" : ""
                                 } ${canEdit && isEditorOpen && selectedId === (activity.id ?? null)
                                     ? "border border-[#8CE0F4]/25 bg-[#8CE0F4]/8 shadow-[0_0_0_1px_rgba(140,224,244,0.08)]"
                                     : "border border-transparent"
