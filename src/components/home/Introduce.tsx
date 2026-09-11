@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { HOME_ACTIVITIES, HOME_STATS } from "@/lib/site-content";
-import { FolderGit2, BookOpen, Presentation, Users } from "lucide-react";
+import { FolderGit2, BookOpen, Presentation, Users, Sprout } from "lucide-react";
 
 // Fixed styling and icons for home activities
 const ActivityStyles: { [key: string]: { icon: React.ReactNode, accent: string, bg: string, border: string } } = {
@@ -30,6 +30,12 @@ const ActivityStyles: { [key: string]: { icon: React.ReactNode, accent: string, 
         accent: "text-[#a6c9d8]",
         bg: "bg-[#a6c9d8]/10",
         border: "border-[#a6c9d8]/20"
+    },
+    starter: {
+        icon: <Sprout size={20} />,
+        accent: "text-[#a1b3dd]",
+        bg: "bg-[#a1b3dd]/10",
+        border: "border-[#a1b3dd]/20"
     }
 };
 

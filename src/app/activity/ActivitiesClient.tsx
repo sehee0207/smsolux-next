@@ -378,7 +378,7 @@ export default function ActivitiesClient({
                 </div>
 
                 <div className="relative space-y-24 md:space-y-32">
-                    <div className="hidden md:block absolute left-[40px] top-4 bottom-4 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent" />
+                    <div className="hidden md:block absolute left-16 top-4 bottom-4 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent" />
 
                     {activities.map((activity, idx) => (
                         <motion.div
