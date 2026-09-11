@@ -184,19 +184,12 @@ function joinRecordValues(
 
 function getSummaryMeta(sectionId: string, record: Record<string, unknown>) {
   switch (sectionId) {
-    case "homeActivities":
-      return joinRecordValues(record, ["key"]);
     case "reviews":
       return joinRecordValues(record, ["gen", "part"]);
     case "activities":
       return record.order === undefined ? "" : `노출 순서 ${record.order}`;
     case "projects":
       return joinRecordValues(record, ["generation", "term", "team_name"]);
-    case "recruitCoreValues":
-    case "footerLinks":
-      return record.order_index === undefined
-        ? joinRecordValues(record, ["key"])
-        : `노출 순서 ${record.order_index}`;
     default:
       return "";
   }

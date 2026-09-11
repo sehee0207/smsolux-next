@@ -12,7 +12,7 @@ export const revalidate = 0;
 
 export default async function RecruitPage() {
     const now = getKstWallClockISOString();
-    const [faqsResult, recruitmentsResult, coreValuesResult] = await Promise.all([
+    const [faqsResult, recruitmentsResult] = await Promise.all([
         supabase.from('faqs').select('*').order('id', { ascending: true }),
         supabase
             .from('recruitments')
@@ -22,16 +22,10 @@ export default async function RecruitPage() {
             .gt('end_date', now)
             .order('start_date', { ascending: false })
             .limit(1)
-            .maybeSingle(),
-        supabase.from('recruit_core_values').select('*').order('order_index', { ascending: true })
+            .maybeSingle()
     ]);
 
-    const faqs = faqsResult.data;
-    const error = faqsResult.error;
-    const recruitment = recruitmentsResult.data;
-    const coreValues = coreValuesResult.data;
-
-    const pageError = error || recruitmentsResult.error || coreValuesResult.error;
+    const pageError = faqsResult.error || recruitmentsResult.error;
 
     if (pageError) {
         console.error("DB Error:", pageError);
@@ -48,9 +42,8 @@ export default async function RecruitPage() {
 
     return (
         <RecruitClient
-            initialFaqs={faqs || []}
-            activeRecruitment={recruitment}
-            initialCoreValues={coreValues || []}
+            initialFaqs={faqsResult.data || []}
+            activeRecruitment={recruitmentsResult.data}
         />
     );
 }

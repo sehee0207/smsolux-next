@@ -14,14 +14,10 @@ export default async function AdminRecruitPage({
   searchParams: SearchParams;
 }) {
   const { message, status } = await searchParams;
-  const [recruitments, coreValues, faqs] = await Promise.all([
+  const [recruitments, faqs] = await Promise.all([
     fetchTableRecords("recruitments", {
       orderBy: "end_date",
       ascending: false,
-    }),
-    fetchTableRecords("recruit_core_values", {
-      orderBy: "order_index",
-      ascending: true,
     }),
     fetchTableRecords("faqs", {
       orderBy: "id",
@@ -35,13 +31,6 @@ export default async function AdminRecruitPage({
       <AdminSection
         section={ADMIN_SECTIONS.recruitments}
         records={recruitments as Record<string, unknown>[]}
-        createMode="modal"
-        editMode="modal"
-      />
-      <AdminSection
-        section={ADMIN_SECTIONS.recruitCoreValues}
-        records={coreValues as Record<string, unknown>[]}
-        recordLayout="grid"
         createMode="modal"
         editMode="modal"
       />

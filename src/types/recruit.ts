@@ -14,9 +14,7 @@ export type RecruitmentNotice = {
 };
 
 export type CoreValue = {
-    id: string;
     key: string;
     title: string;
     description: string;
-    order_index: number;
 };

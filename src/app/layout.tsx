@@ -46,24 +46,17 @@ export const metadata: Metadata = {
   },
 };
 
-import { supabase } from "@/lib/supabase";
-
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { data: footerLinks } = await supabase
-    .from('footer_links')
-    .select('*')
-    .order('order_index', { ascending: true });
-
   return (
     <html lang="ko">
       <body className={`${montserrat.variable} ${notoSansKr.variable} bg-background text-white antialiased`}>
         <Analytics />
         <SpeedInsights />
-        <AppFrame footerLinks={footerLinks || []}>{children}</AppFrame>
+        <AppFrame>{children}</AppFrame>
       </body>
     </html>
   );

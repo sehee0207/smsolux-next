@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { FooterLink } from "@/types/layout";
+import { FOOTER_LINKS } from "@/lib/site-content";
 import { LucideIcon, Mail, Instagram, Github, Linkedin, MessageCircle, Link as LinkIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -13,11 +13,7 @@ const FooterStyles: { [key: string]: { icon: LucideIcon, hover: string } } = {
     linkedin: { icon: Linkedin, hover: "hover:text-blue-500" }
 };
 
-interface FooterProps {
-    initialLinks?: FooterLink[];
-}
-
-export default function Footer({ initialLinks = [] }: FooterProps) {
+export default function Footer() {
     return (
         <footer className="bg-[#0F1012] w-full border-t border-white/5 py-8">
             <div className="container mx-auto px-6 md:px-10 max-w-7xl flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
@@ -38,13 +34,13 @@ export default function Footer({ initialLinks = [] }: FooterProps) {
                 </div>
 
                 <div className="flex items-center gap-6">
-                    {initialLinks.map((link) => {
+                    {FOOTER_LINKS.map((link) => {
                         const style = FooterStyles[link.key] || { icon: LinkIcon, hover: "hover:text-primary" };
                         const Icon = style.icon;
 
                         return (
                             <a
-                                key={link.id}
+                                key={link.key}
                                 href={link.url}
                                 target={link.url.startsWith('mailto') ? undefined : "_blank"}
                                 rel={link.url.startsWith('mailto') ? undefined : "noopener noreferrer"}

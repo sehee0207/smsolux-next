@@ -1,5 +1,4 @@
 export type HomeActivity = {
-    id: string;
     key: string;
     title: string;
     description: string;
@@ -15,8 +14,7 @@ export type Review = {
 };
 
 export type HomeStat = {
-    id: string;
+    key: string;
     label: string;
     value: string;
-    order_index: number;
 };

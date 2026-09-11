@@ -35,39 +35,6 @@ export interface AdminSectionConfig {
 }
 
 export const ADMIN_SECTIONS: Record<string, AdminSectionConfig> = {
-  homeActivities: {
-    id: "homeActivities",
-    table: "home_activities",
-    title: "메인 활동 카드",
-    description: "홈 화면에 노출되는 활동을 관리합니다.",
-    primaryKey: "id",
-    publicPath: "/",
-    adminPath: "/admin/home",
-    revalidatePaths: ["/", "/admin", "/admin/home"],
-    emptyStateLabel: "메인 활동 카드가 없습니다.",
-    fields: [
-      {
-        name: "title",
-        label: "제목",
-        placeholder: "프로젝트",
-        required: true,
-      },
-      {
-        name: "key",
-        label: "식별 키",
-        placeholder: "project, study, seminar, networking 중 하나",
-        required: true,
-      },
-      {
-        name: "description",
-        label: "설명",
-        type: "textarea",
-        rows: 3,
-        placeholder: "카드 설명",
-        required: true,
-      },
-    ],
-  },
   reviews: {
     id: "reviews",
     table: "reviews",
@@ -283,46 +250,6 @@ export const ADMIN_SECTIONS: Record<string, AdminSectionConfig> = {
       },
     ],
   },
-  recruitCoreValues: {
-    id: "recruitCoreValues",
-    table: "recruit_core_values",
-    title: "핵심 가치",
-    description: "리크루팅 페이지의 핵심 가치 카드를 관리합니다.",
-    primaryKey: "id",
-    publicPath: "/recruit",
-    adminPath: "/admin/recruit",
-    revalidatePaths: ["/recruit", "/admin", "/admin/recruit"],
-    emptyStateLabel: "핵심 가치 카드가 없습니다.",
-    fields: [
-      {
-        name: "key",
-        label: "식별 키",
-        placeholder: "growth / solidarity / responsibility",
-        required: true,
-      },
-      {
-        name: "title",
-        label: "제목",
-        placeholder: "성장",
-        required: true,
-      },
-      {
-        name: "description",
-        label: "설명",
-        type: "textarea",
-        rows: 4,
-        placeholder: "핵심 가치 설명",
-        required: true,
-      },
-      {
-        name: "order_index",
-        label: "노출 순서",
-        type: "number",
-        placeholder: "0",
-        required: true,
-      },
-    ],
-  },
   faqs: {
     id: "faqs",
     table: "faqs",
@@ -352,49 +279,6 @@ export const ADMIN_SECTIONS: Record<string, AdminSectionConfig> = {
       },
     ],
   },
-  footerLinks: {
-    id: "footerLinks",
-    table: "footer_links",
-    title: "푸터 링크",
-    description: "사이트 하단의 외부 링크와 노출 순서를 관리합니다.",
-    primaryKey: "id",
-    publicPath: "/",
-    adminPath: "/admin/links",
-    revalidatePaths: ["/", "/admin", "/admin/links"],
-    emptyStateLabel: "푸터 링크가 없습니다.",
-    fields: [
-      {
-        name: "key",
-        label: "식별 키",
-        placeholder: "instagram / github / email / kakao",
-        required: true,
-      },
-      {
-        name: "label",
-        label: "표시 이름",
-        placeholder: "Instagram",
-        required: true,
-      },
-      {
-        name: "url",
-        label: "링크",
-        placeholder: "https://...",
-        required: true,
-      },
-      {
-        name: "icon_name",
-        label: "아이콘 이름",
-        placeholder: "instagram",
-      },
-      {
-        name: "order_index",
-        label: "노출 순서",
-        type: "number",
-        placeholder: "0",
-        required: true,
-      },
-    ],
-  },
 };
 
 export const ADMIN_NAV_ITEMS = [
@@ -402,7 +286,7 @@ export const ADMIN_NAV_ITEMS = [
     href: "/admin/home",
     label: "Home",
     eyebrow: "/",
-    description: "메인 활동 카드와 후기",
+    description: "활동 후기",
   },
   {
     href: "/admin/activity",
@@ -421,11 +305,5 @@ export const ADMIN_NAV_ITEMS = [
     label: "Recruit",
     eyebrow: "/recruit",
     description: "모집 공고와 FAQ",
-  },
-  {
-    href: "/admin/links",
-    label: "Links",
-    eyebrow: "Footer",
-    description: "푸터 링크와 아이콘",
   },
 ];

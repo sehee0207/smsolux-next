@@ -14,24 +14,14 @@ export default async function AdminHomePage({
   searchParams: SearchParams;
 }) {
   const { message, status } = await searchParams;
-  const [homeActivities, reviews] = await Promise.all([
-    fetchTableRecords("home_activities"),
-    fetchTableRecords("reviews", {
-      orderBy: "created_at",
-      ascending: false,
-    }),
-  ]);
+  const reviews = await fetchTableRecords("reviews", {
+    orderBy: "created_at",
+    ascending: false,
+  });
 
   return (
     <div className="space-y-6">
       <AdminMessage message={message} status={status} />
-      <AdminSection
-        section={ADMIN_SECTIONS.homeActivities}
-        records={homeActivities as Record<string, unknown>[]}
-        recordLayout="grid"
-        createMode="modal"
-        editMode="modal"
-      />
       <AdminSection
         section={ADMIN_SECTIONS.reviews}
         records={reviews as Record<string, unknown>[]}

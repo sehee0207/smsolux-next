@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { HomeActivity, HomeStat } from "@/types/home";
+import { HOME_ACTIVITIES, HOME_STATS } from "@/lib/site-content";
 import { FolderGit2, BookOpen, Presentation, Users } from "lucide-react";
 
 // Fixed styling and icons for home activities
@@ -36,23 +36,19 @@ const ActivityStyles: { [key: string]: { icon: React.ReactNode, accent: string, 
 interface IntroduceProps {
     isSummary?: boolean;
     className?: string;
-    initialActivities?: HomeActivity[];
-    initialStats?: HomeStat[];
 }
 
 export default function Introduce({
     isSummary = false,
-    className,
-    initialActivities = [],
-    initialStats = []
+    className
 }: IntroduceProps) {
-    // Merge DB content with fixed styling
-    const displayActivities = initialActivities.map(dbActivity => {
-        const style = ActivityStyles[dbActivity.key] || ActivityStyles.project;
+    // Merge content with fixed styling
+    const displayActivities = HOME_ACTIVITIES.map(activity => {
+        const style = ActivityStyles[activity.key] || ActivityStyles.project;
         return {
-            key: dbActivity.key,
-            title: dbActivity.title,
-            desc: dbActivity.description,
+            key: activity.key,
+            title: activity.title,
+            desc: activity.description,
             icon: style.icon,
             accent: style.accent,
             accentBg: style.bg,
@@ -91,14 +87,14 @@ export default function Introduce({
                         </p>
 
                         <div className="pt-6 grid grid-cols-3 gap-6">
-                            {initialStats.map((stat, idx) => (
+                            {HOME_STATS.map((stat, idx) => (
                                 <motion.div
                                     key={stat.label}
                                     initial={{ opacity: 0, y: 12 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.5, delay: 0.3 + idx * 0.1 }}
-                                    className={idx < initialStats.length - 1 ? "border-r border-white/10 pr-4" : ""}
+                                    className={idx < HOME_STATS.length - 1 ? "border-r border-white/10 pr-4" : ""}
                                 >
                                     <span className="block text-2xl font-black text-white">{stat.value}</span>
                                     <span className="text-xs text-gray-500 uppercase tracking-widest">{stat.label}</span>

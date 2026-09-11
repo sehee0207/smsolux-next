@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronUp, TrendingUp, Users, ShieldCheck } from "lucide-react";
-import { Faq, RecruitmentNotice, CoreValue } from "@/types/recruit";
+import { Faq, RecruitmentNotice } from "@/types/recruit";
+import { RECRUIT_CORE_VALUES } from "@/lib/site-content";
 import { formatDateTime } from "@/utils/date";
 
 const ValueStyles: { [key: string]: { icon: React.ReactNode, gradient: string } } = {
@@ -24,10 +25,9 @@ const ValueStyles: { [key: string]: { icon: React.ReactNode, gradient: string } 
 interface RecruitClientProps {
     initialFaqs: Faq[];
     activeRecruitment?: RecruitmentNotice | null;
-    initialCoreValues?: CoreValue[];
 }
 
-export default function RecruitClient({ initialFaqs, activeRecruitment, initialCoreValues = [] }: RecruitClientProps) {
+export default function RecruitClient({ initialFaqs, activeRecruitment }: RecruitClientProps) {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 
     const toggleAccordion = (index: number) => {
@@ -60,11 +60,11 @@ export default function RecruitClient({ initialFaqs, activeRecruitment, initialC
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-36">
-                    {initialCoreValues.map((value, idx) => {
+                    {RECRUIT_CORE_VALUES.map((value, idx) => {
                         const style = ValueStyles[value.key] || ValueStyles.growth;
                         return (
                             <motion.div
-                                key={value.id}
+                                key={value.key}
                                 initial={{ opacity: 0, y: 16 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}

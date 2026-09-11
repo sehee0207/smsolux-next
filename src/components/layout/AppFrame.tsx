@@ -2,15 +2,13 @@
 
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { FooterLink } from "@/types/layout";
 import { usePathname } from "next/navigation";
 
 interface AppFrameProps {
   children: React.ReactNode;
-  footerLinks: FooterLink[];
 }
 
-export default function AppFrame({ children, footerLinks }: AppFrameProps) {
+export default function AppFrame({ children }: AppFrameProps) {
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith("/admin");
 
@@ -22,7 +20,7 @@ export default function AppFrame({ children, footerLinks }: AppFrameProps) {
     <>
       <Header />
       {children}
-      <Footer initialLinks={footerLinks} />
+      <Footer />
     </>
   );
 }
